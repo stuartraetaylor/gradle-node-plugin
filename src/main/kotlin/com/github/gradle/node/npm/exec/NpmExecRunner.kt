@@ -101,8 +101,8 @@ internal class NpmExecRunner {
     )
 
     private fun computeAdditionalBinPath(project: Project, nodeExtension: NodeExtension): Provider<List<String>> {
-        return nodeExtension.download.flatMap { download ->
-            if (!download) {
+        return nodeExtension.useDownloaded.flatMap { useDownloaded ->
+            if (!useDownloaded) {
                 project.providers.provider { listOf<String>() }
             }
             val nodeDirProvider = variantComputer.computeNodeDir(nodeExtension)

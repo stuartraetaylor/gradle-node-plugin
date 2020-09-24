@@ -32,9 +32,9 @@ internal class NodeExecRunner {
 
     private fun computeAdditionalBinPath(nodeExtension: NodeExtension, nodeBinDirProvider: Provider<Directory>):
             Provider<List<String>> {
-        return zip(nodeExtension.download, nodeBinDirProvider)
-                .map { (download, nodeBinDir) ->
-                    if (download) listOf(nodeBinDir.asFile.absolutePath) else listOf()
+        return zip(nodeExtension.useDownloaded, nodeBinDirProvider)
+                .map { (useDownloaded, nodeBinDir) ->
+                    if (useDownloaded) listOf(nodeBinDir.asFile.absolutePath) else listOf()
                 }
     }
 }

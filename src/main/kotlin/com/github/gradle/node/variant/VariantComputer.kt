@@ -22,9 +22,9 @@ internal class VariantComputer @JvmOverloads constructor(
     fun computeNodeBinDir(nodeDirProvider: Provider<Directory>) = computeProductBinDir(nodeDirProvider)
 
     fun computeNodeExec(nodeExtension: NodeExtension, nodeBinDirProvider: Provider<Directory>): Provider<String> {
-        return zip(nodeExtension.download, nodeBinDirProvider).map {
-            val (download, nodeBinDir) = it
-            if (download) {
+        return zip(nodeExtension.useDownloaded, nodeBinDirProvider).map {
+            val (useDownloaded, nodeBinDir) = it
+            if (useDownloaded) {
                 val nodeCommand = if (platformHelper.isWindows) "node.exe" else "node"
                 nodeBinDir.dir(nodeCommand).asFile.absolutePath
             } else "node"
@@ -44,12 +44,12 @@ internal class VariantComputer @JvmOverloads constructor(
     fun computeNpmBinDir(npmDirProvider: Provider<Directory>) = computeProductBinDir(npmDirProvider)
 
     fun computeNpmExec(nodeExtension: NodeExtension, npmBinDirProvider: Provider<Directory>): Provider<String> {
-        return zip(nodeExtension.download, nodeExtension.npmCommand, npmBinDirProvider).map {
-            val (download, npmCommand, npmBinDir) = it
+        return zip(nodeExtension.useDownloaded, nodeExtension.npmCommand, npmBinDirProvider).map {
+            val (useDownloaded, npmCommand, npmBinDir) = it
             val command = if (platformHelper.isWindows) {
                 npmCommand.mapIf({ it == "npm" }) { "npm.cmd" }
             } else npmCommand
-            if (download) npmBinDir.dir(command).asFile.absolutePath else command
+            if (useDownloaded) npmBinDir.dir(command).asFile.absolutePath else command
         }
     }
 
@@ -62,11 +62,11 @@ internal class VariantComputer @JvmOverloads constructor(
 
     fun computeNpxExec(nodeExtension: NodeExtension, npmBinDirProvider: Provider<Directory>): Provider<String> {
         return zip(nodeExtension.download, nodeExtension.npxCommand, npmBinDirProvider).map {
-            val (download, npxCommand, npmBinDir) = it
+            val (useDownloaded, npxCommand, npmBinDir) = it
             val command = if (platformHelper.isWindows) {
                 npxCommand.mapIf({ it == "npx" }) { "npx.cmd" }
             } else npxCommand
-            if (download) npmBinDir.dir(command).asFile.absolutePath else command
+            if (useDownloaded) npmBinDir.dir(command).asFile.absolutePath else command
         }
     }
 
