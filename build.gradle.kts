@@ -22,7 +22,7 @@ plugins {
 }
 
 group = "com.github.node-gradle"
-version = "3.0.0-rc2_multifix"
+version = "3.0.0-rc4_multifix"
 
 val compatibilityVersion = JavaVersion.VERSION_1_8
 
